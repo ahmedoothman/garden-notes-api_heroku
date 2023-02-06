@@ -9,7 +9,6 @@ const inventoryRouter = require('./routes/inventoryRoutes');
 const errorController = require('./controllers/errorController');
 // configure router
 const router = express.Router();
-
 //secuirty
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
