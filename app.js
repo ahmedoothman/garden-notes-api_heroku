@@ -30,9 +30,9 @@ const limiter = rateLimit({
 app.use(cors());
 app.options('*', cors());
 app.use('/api', limiter);
-app.use(timeout('10s'));
+app.use(timeout('30s'));
 
-app.use(express.json({ limit: '10kb' })); // we need that middleware for convert the url we got to json (not sure)
+app.use(express.json({ limit: '50kb' })); // we need that middleware for convert the url we got to json (not sure)
 app.use(express.static(`${__dirname}/public`));
 app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 app.use(cookieParser());
