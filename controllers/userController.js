@@ -91,10 +91,6 @@ exports.updateMe = catchAsync(async (req, res, next) => {
         filteredBody.verified = false;
     }
 
-    let exposedBody = filteredBody;
-    if (!exposedBody.photo.startsWith('https')) {
-        exposedBody.photo = req.awsSignedUrl;
-    }
     // 3) Update user document
     const updatedUser = await User.findByIdAndUpdate(
         req.user.id,
@@ -143,12 +139,16 @@ exports.updateMe = catchAsync(async (req, res, next) => {
             );
         }
     }
+    let exposedBody = updatedUser;
+    if (!exposedBody.photo.startsWith('https')) {
+        exposedBody.photo = req.awsSignedUrl;
+    }
     if (emailChanged) {
         res.status(200).json({
             status: 'success',
             message: 'Please Visit Your Email to Verify it',
             data: {
-                user: updatedUser,
+                user: exposedBody,
             },
         });
     } else {
@@ -156,7 +156,7 @@ exports.updateMe = catchAsync(async (req, res, next) => {
             status: 'success',
             message: 'Updated Successfully',
             data: {
-                user: updatedUser,
+                user: exposedBody,
             },
         });
     }
