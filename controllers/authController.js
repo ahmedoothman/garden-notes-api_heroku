@@ -5,7 +5,10 @@ const User = require('./../model/userModel');
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
 const sendEmail = require('./../utils/email');
-const urlProduction = 'https://garden-notes.web.app';
+
+const dotenv = require('dotenv'); // to use environment variable
+dotenv.config({ path: './config.env' }); // configuration of the environment file
+const urlProduction = process.env.HOST_URL_FRONTEND;
 
 const signToken = (id) => {
     return jwt.sign({ id }, process.env.JWT_SECRET, {

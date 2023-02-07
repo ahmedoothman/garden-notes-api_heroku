@@ -1,0 +1,2 @@
+-> import it in the server.js and call it right after || console.log(`works on ${port} ...`); || in the same function
+-> you can edit the sleep time in minute from the config WAKE_UP_PERIOD in minutes

@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv'); // to use environment variable
 dotenv.config({ path: './config.env' }); // configuration of the environment file
 const app = require('./app'); // import the express app
+const preventSleep = require('./utils/preventSleep');
 console.log(process.env.NODE_ENV);
 process.on('uncaughtException', (err) => {
     console.log(err);
@@ -44,9 +45,12 @@ let server;
 // server = app.listen(port, () => {
 //     console.log(`works on ${port} ...`);
 // });
+
 connectDB().then(() => {
     server = app.listen(port, () => {
         console.log(`works on ${port} ...`);
+        // preventSleep
+        preventSleep.preventSleep();
     });
 });
 process.on('unhandeledRejection', (err) => {

@@ -8,7 +8,7 @@ module.exports = class Email {
         this.firstName =
             user.name.split(' ')[0] + ' ' + user.name.split(' ')[1];
         this.url = url;
-        this.from = process.env.EMAIL_USERNAME_Gmail;
+        this.from = process.env.EMAIL_USERNAME;
     }
     newTransport() {
         if (process.env.NODE_ENV === 'production') {
@@ -16,12 +16,12 @@ module.exports = class Email {
         }
         return nodemailer.createTransport({
             service: 'gmail',
-            host: process.env.EMAIL_HOST_Gmail,
+            host: process.env.EMAIL_HOST,
             port: process.env.EMAIL_PORT,
             secure: true,
             auth: {
-                user: process.env.EMAIL_USERNAME_Gmail,
-                pass: process.env.EMAIL_PASSWORD_Gmail,
+                user: process.env.EMAIL_USERNAME,
+                pass: process.env.EMAIL_PASSWORD,
             },
             //activate in gmail "less secure app" option
         });
@@ -80,18 +80,18 @@ const sendEmail = async options => {
     //1 create a transporter
     const transporter = nodemailer.createTransport({
         service: 'gmail',
-        host:process.env.EMAIL_HOST_Gmail,
+        host:process.env.EMAIL_HOST,
         port:process.env.EMAIL_PORT,
         secure:true,
         auth: {
-            user: process.env.EMAIL_USERNAME_Gmail,
-            pass: process.env.EMAIL_PASSWORD_Gmail
+            user: process.env.EMAIL_USERNAME,
+            pass: process.env.EMAIL_PASSWORD
         }
         //activate in gmail "less secure app" option
     });
     //2 define the email options
     const mailOptions = {
-        from: process.env.EMAIL_USERNAME_Gmail,
+        from: process.env.EMAIL_USERNAME,
         to: options.email,
         subject: options.subject,
         text: options.message
