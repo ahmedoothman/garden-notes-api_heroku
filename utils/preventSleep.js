@@ -9,7 +9,7 @@ exports.preventSleep = () => {
         axios
             .get(url)
             .then((response) => {
-                console.log('🤓➡️ : preventing sleep... 😉');
+                // console.log('🤓➡️ : preventing sleep... 😉'); // bcz heroku hates logs with error l11
             })
             .catch((error) => {
                 console.log(error);
