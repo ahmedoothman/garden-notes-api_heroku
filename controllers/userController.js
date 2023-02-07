@@ -84,13 +84,17 @@ exports.updateMe = catchAsync(async (req, res, next) => {
     let nameChanged = false;
     let emailChanged = false;
 
-    if (req.file) filteredBody.photo = req.awsSignedUrl;
+    if (req.file) filteredBody.photo = req.file.filename;
     if (req.body.name) nameChanged = true;
     if (req.body.email) {
         emailChanged = true;
         filteredBody.verified = false;
     }
 
+    let exposedBody = filteredBody;
+    if (!exposedBody.photo.startsWith('https')) {
+        exposedBody.photo = req.awsSignedUrl;
+    }
     // 3) Update user document
     const updatedUser = await User.findByIdAndUpdate(
         req.user.id,
