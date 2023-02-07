@@ -48,8 +48,9 @@ exports.resizeUserPhoto = catchAsync(async (req, res, next) => {
         imageFile,
         filepathAws
     );
-    //save the link to db
-    req.file.filename = `${imgeAwsUrl}`; // for aws
+    req.awsSignedUrl = imgeAwsUrl;
+    //save the path to db
+    req.file.filename = `${filepathAws}`; // for aws
     /* ******************************* */
 
     next();
@@ -82,7 +83,8 @@ exports.updateMe = catchAsync(async (req, res, next) => {
     const filteredBody = filterObj(req.body, 'name', 'email');
     let nameChanged = false;
     let emailChanged = false;
-    if (req.file) filteredBody.photo = req.file.filename;
+
+    if (req.file) filteredBody.photo = req.awsSignedUrl;
     if (req.body.name) nameChanged = true;
     if (req.body.email) {
         emailChanged = true;

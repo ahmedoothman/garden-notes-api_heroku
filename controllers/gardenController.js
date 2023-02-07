@@ -55,7 +55,7 @@ exports.resizeGardenItemPhoto = catchAsync(async (req, res, next) => {
     );
     // save the link in the req object to access it in the next middleware
     req.awsSignedUrl = imgeAwsUrl;
-    //save the link to db
+    //save the path to db
     req.file.filename = `${filepathAws}`; // for aws
     next();
 });

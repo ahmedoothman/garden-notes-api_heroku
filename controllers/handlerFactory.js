@@ -31,7 +31,7 @@ exports.updateOne = (Model) =>
         req.body = doc;
         let newDoc = doc;
         if (!newDoc.photo.startsWith('https')) {
-            newDoc.photo = awsFeatures.getSignedUrlAws(newDoc.photo);
+            newDoc.photo = req.awsSignedUrl;
         }
         res.status(200).json({
             status: 'success',
@@ -53,7 +53,7 @@ exports.createOne = (Model) =>
         req.body = doc;
         let newDoc = doc;
         if (!newDoc.photo.startsWith('https')) {
-            newDoc.photo = awsFeatures.getSignedUrlAws(newDoc.photo);
+            newDoc.photo = req.awsSignedUrl;
         }
         res.status(201).json({
             status: 'success',
