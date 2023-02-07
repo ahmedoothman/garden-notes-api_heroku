@@ -47,8 +47,10 @@ exports.resizeNotePhoto = catchAsync(async (req, res, next) => {
         imageFile,
         filepathAws
     );
+    // save the link in the req object to access it in the next middleware
+    req.awsSignedUrl = imgeAwsUrl;
     //save the link to db
-    req.file.filename = `${imgeAwsUrl}`; // for aws
+    req.file.filename = `${filepathAws}`; // for aws
 
     next();
 });
@@ -63,11 +65,19 @@ exports.getAllNotesUser = catchAsync(async (req, res, next) => {
         .paginate();
 
     const notes = await features.query;
+
+    let newNotes;
+    newNotes = notes.map((el) => {
+        if (!el.photo.startsWith('https')) {
+            el.photo = awsFeatures.getSignedUrlAws(el.photo);
+        }
+        return el;
+    });
     res.status(200).json({
         status: 'success',
         results: notes.length,
         data: {
-            data: notes,
+            data: newNotes,
         },
     });
 });
