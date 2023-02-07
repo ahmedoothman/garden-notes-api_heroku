@@ -7,6 +7,7 @@ const AppError = require('./../utils/appError');
 const sendEmail = require('./../utils/email');
 const awsFeatures = require('./../utils/awsFeatures');
 const dotenv = require('dotenv'); // to use environment variable
+const { log } = require('console');
 dotenv.config({ path: './config.env' }); // configuration of the environment file
 const urlProduction = process.env.HOST_URL_FRONTEND;
 
@@ -29,6 +30,11 @@ const createSendToken = (user, statusCode, res) => {
     res.header('Access-Control-Expose-Headers', 'jwt');
     // Remove password from output
     user.password = undefined;
+
+    // give secured link for the image
+    if (!user.photo.startsWith('https')) {
+        user.photo = awsFeatures.getSignedUrlAws(user.photo);
+    }
 
     res.status(statusCode).json({
         status: 'success',
@@ -183,10 +189,6 @@ exports.protect = catchAsync(async (req, res, next) => {
                 401
             )
         );
-    }
-    // give secured link for the image
-    if (!currentUser.photo.startsWith('https')) {
-        currentUser.photo = awsFeatures.getSignedUrlAws(currentUser.photo);
     }
     // Grant Access
     req.user = currentUser;
