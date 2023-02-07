@@ -5,7 +5,7 @@ const User = require('./../model/userModel');
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
 const sendEmail = require('./../utils/email');
-
+const awsFeatures = require('./../utils/awsFeatures');
 const dotenv = require('dotenv'); // to use environment variable
 dotenv.config({ path: './config.env' }); // configuration of the environment file
 const urlProduction = process.env.HOST_URL_FRONTEND;
@@ -165,7 +165,7 @@ exports.protect = catchAsync(async (req, res, next) => {
     const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
 
     //3) Check if user still exists
-    const currentUser = await User.findById(decoded.id);
+    let currentUser = await User.findById(decoded.id);
     if (!currentUser) {
         return next(
             new AppError(
@@ -184,7 +184,10 @@ exports.protect = catchAsync(async (req, res, next) => {
             )
         );
     }
-
+    // give secured link for the image
+    if (!currentUser.photo.startsWith('https')) {
+        currentUser.photo = awsFeatures.getSignedUrlAws(currentUser.photo);
+    }
     // Grant Access
     req.user = currentUser;
     res.locals.user = currentUser;
