@@ -15,7 +15,7 @@ module.exports = class Email {
             //sendgrid
         }
         return nodemailer.createTransport({
-            service: 'gmail',
+            service: process.env.EMAIL_SERVICE,
             host: process.env.EMAIL_HOST,
             port: process.env.EMAIL_PORT,
             secure: true,
