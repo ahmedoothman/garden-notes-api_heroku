@@ -7,6 +7,7 @@ const multer = require('multer');
 const sharp = require('sharp');
 const Email = require('./../utils/email');
 
+let hostUrlFrontEnd = process.env.HOST_URL_FRONTEND;
 /* Aws */
 const awsFeatures = require('./../utils/awsFeatures');
 
@@ -120,7 +121,7 @@ exports.updateMe = catchAsync(async (req, res, next) => {
         const verifyToken = await updatedUser.createAccountVerifyToken();
         await updatedUser.save({ validateBeforeSave: false });
 
-        const verifyURL = `https://garden-notes.web.app/verify-email/${verifyToken}`;
+        const verifyURL = `${hostUrlFrontEnd}/${verifyToken}`;
         //const message = `please verify your email by visiting this link ${verifyURL}`;
         try {
             new email(
