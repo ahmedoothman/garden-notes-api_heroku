@@ -5,11 +5,14 @@ const awsFeatures = require('./../utils/awsFeatures');
 const moment = require('moment');
 exports.deleteOne = (Model) =>
     catchAsync(async (req, res, next) => {
-        const doc = await Model.findByIdAndDelete(req.params.id);
-
-        if (!doc) {
+        const intilDoc = await Model.findById(req.params.id);
+        if (!intilDoc) {
             return next(new AppError('No document found with that ID', 404));
+        } else {
+            if (!intilDoc.photo.startsWith('https'))
+                await awsFeatures.deleteAwsFile(intilDoc.photo);
         }
+        const doc = await Model.findByIdAndDelete(req.params.id);
 
         res.status(204).json({
             status: 'success',

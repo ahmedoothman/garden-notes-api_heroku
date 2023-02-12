@@ -42,3 +42,12 @@ exports.getSignedUrlAws = (filepathAws) => {
     });
     return imgeAwsUrl;
 };
+
+exports.deleteAwsFile = async (filepathAws) => {
+    await cloudStorage
+        .deleteObject({
+            Bucket: awsBucket,
+            Key: `${filepathAws}`,
+        })
+        .promise();
+};
