@@ -49,8 +49,6 @@ let server;
 connectDB().then(() => {
     server = app.listen(port, () => {
         console.log(`works on ${port} ...`);
-        // preventSleep
-        preventSleep.preventSleep();
     });
 });
 process.on('unhandeledRejection', (err) => {
