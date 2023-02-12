@@ -5,7 +5,6 @@ const AppError = require('./../utils/appError');
 const factory = require('./handlerFactory');
 const multer = require('multer');
 const sharp = require('sharp');
-const Email = require('./../utils/email');
 
 let hostUrlFrontEnd = process.env.HOST_URL_FRONTEND;
 /* Aws */
