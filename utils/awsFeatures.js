@@ -44,10 +44,14 @@ exports.getSignedUrlAws = (filepathAws) => {
 };
 
 exports.deleteAwsFile = async (filepathAws) => {
-    await cloudStorage
-        .deleteObject({
-            Bucket: awsBucket,
-            Key: `${filepathAws}`,
-        })
-        .promise();
+    try {
+        await cloudStorage
+            .deleteObject({
+                Bucket: awsBucket,
+                Key: `${filepathAws}`,
+            })
+            .promise();
+    } catch (err) {
+        console.log(err);
+    }
 };
