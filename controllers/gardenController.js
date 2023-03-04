@@ -93,7 +93,7 @@ exports.getGardenItem = factory.getOne(Garden);
 exports.updateGardenItem = factory.updateOne(Garden);
 exports.createGardenItem = factory.createOne(Garden);
 exports.deleteGardenItem = catchAsync(async (req, res, next) => {
-    const intilDoc = await Inventory.findById(req.params.id);
+    const intilDoc = await Garden.findById(req.params.id);
     if (!intilDoc) {
         return next(new AppError('No document found with that ID', 404));
     } else {
