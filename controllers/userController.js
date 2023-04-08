@@ -141,7 +141,7 @@ exports.updateMe = catchAsync(async (req, res, next) => {
     }
     let exposedBody = updatedUser;
     if (!exposedBody.photo.startsWith('https')) {
-        exposedBody.photo = req.awsSignedUrl;
+        exposedBody.photo = awsFeatures.getSignedUrlAws(exposedBody.photo);
     }
     if (emailChanged) {
         res.status(200).json({
