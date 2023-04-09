@@ -9,8 +9,14 @@ const gardenItemSchema = new mongoose.Schema({
     plantDate: Date,
     lastFertilizedDate: Date,
     lastWateredDate: Date,
-    fertilizedType: String,
-    soil: String,
+    fertilizedType: {
+        type: String,
+        default: 'Not Specified',
+    },
+    soil: {
+        type: String,
+        default: 'Not Specified',
+    },
     photo: {
         type: String,
         default:
