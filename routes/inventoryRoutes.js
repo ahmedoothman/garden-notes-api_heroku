@@ -12,7 +12,7 @@ router
         inventoryController.resizeInventoryItemPhoto,
         inventoryController.createInventoryItem
     );
-router.route('/myGarden').get(inventoryController.getAllInventoryUser);
+router.route('/myInventory').get(inventoryController.getAllInventoryUser);
 router
     .route('/:id')
     .get(inventoryController.getInventoryItem)
