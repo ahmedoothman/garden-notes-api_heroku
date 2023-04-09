@@ -36,7 +36,10 @@ const gardenItemSchema = new mongoose.Schema({
         ref: 'User',
         required: [true, 'Garden item must belong to user'],
     },
-    note: String,
+    note: {
+        type: String,
+        default: 'Not Specified',
+    },
 });
 
 gardenItemSchema.pre(/^find/, function (next) {
